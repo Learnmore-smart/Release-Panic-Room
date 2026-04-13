@@ -33,4 +33,5 @@ export interface Ending {
   id: string;
   title: string;
   description: string;
+  imageUrl?: string;
 }
