@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { GameState, GameEvent, Choice, Ending } from "../lib/types";
 import { initialGameState, gameEvents, determineEnding } from "../lib/gameData";
 
@@ -7,8 +7,22 @@ export function useGame() {
   const [eventIndex, setEventIndex] = useState(0);
   const [isGameOver, setIsGameOver] = useState(false);
   const [ending, setEnding] = useState<Ending | null>(null);
+  const [currentRunEvents, setCurrentRunEvents] = useState<GameEvent[]>([]);
 
-  const currentEvent = !isGameOver && eventIndex < gameEvents.length ? gameEvents[eventIndex] : null;
+  // Initialize random 8-10 events when game starts
+  useEffect(() => {
+    startNewRun();
+  }, []);
+
+  const startNewRun = () => {
+    // Shuffle the full event pool
+    const shuffled = [...gameEvents].sort(() => 0.5 - Math.random());
+    // Pick 8 to 10 random events for this run
+    const numEvents = Math.floor(Math.random() * 3) + 8; // 8, 9, or 10
+    setCurrentRunEvents(shuffled.slice(0, numEvents));
+  };
+
+  const currentEvent = !isGameOver && eventIndex < currentRunEvents.length ? currentRunEvents[eventIndex] : null;
 
   const handleChoice = useCallback((choice: Choice) => {
     const effect = choice.effect;
@@ -38,20 +52,21 @@ export function useGame() {
     setState(newState);
 
     const nextIndex = eventIndex + 1;
-    if (nextIndex >= gameEvents.length) {
+    if (nextIndex >= currentRunEvents.length) {
       const finalEnding = determineEnding(newState);
       setEnding(finalEnding);
       setIsGameOver(true);
     } else {
       setEventIndex(nextIndex);
     }
-  }, [state, eventIndex]);
+  }, [state, eventIndex, currentRunEvents]);
 
   const restartGame = useCallback(() => {
     setState(initialGameState);
     setEventIndex(0);
     setIsGameOver(false);
     setEnding(null);
+    startNewRun();
   }, []);
 
   return {

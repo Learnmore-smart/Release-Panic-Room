@@ -296,6 +296,380 @@ export const gameEvents: GameEvent[] = [
         effect: { teamTrust: -40, riskLevel: 30, chaosMeter: 15, timeCost: 5 }
       }
     ]
+  },
+  {
+    id: "e14",
+    title: "被遗忘的环境变量",
+    description: "生产环境的配置表里少了一个新的环境变量，测试环境一切正常，但只要一上线，核心接口必报 500 错误。",
+    choices: [
+      {
+        id: "e14_c1",
+        text: "立刻拉起审批流程，按照规范补齐变量后再发。",
+        effect: { timeCost: 30, releaseConfidence: 15, riskLevel: -10 }
+      },
+      {
+        id: "e14_c2",
+        text: "直接让运维通过命令行手动注入，跳过审批。",
+        effect: { chaosMeter: 25, riskLevel: 20, timeCost: 5 }
+      },
+      {
+        id: "e14_c3",
+        text: "快速修改代码，给这个变量加个硬编码的默认值。",
+        effect: { riskLevel: 35, releaseConfidence: -15, teamTrust: -10, timeCost: 15 }
+      }
+    ]
+  },
+  {
+    id: "e15",
+    title: "前端缓存作祟",
+    description: "新版的 UI 已经发布，但你发现大量用户手机上还缓存着旧版的 JS 文件，导致页面点击按钮毫无反应。",
+    choices: [
+      {
+        id: "e15_c1",
+        text: "紧急发布一个带强制刷新逻辑的补丁版本。",
+        effect: { timeCost: 40, riskLevel: 10, userImpact: 20 }
+      },
+      {
+        id: "e15_c2",
+        text: "联系 CDN 供应商紧急刷新全网节点缓存。",
+        effect: { chaosMeter: 20, timeCost: 20, releaseConfidence: -10 }
+      },
+      {
+        id: "e15_c3",
+        text: "发个公告，让用户手动清除浏览器缓存。",
+        effect: { userImpact: 40, teamTrust: -20, riskLevel: -5, timeCost: 5 }
+      }
+    ]
+  },
+  {
+    id: "e16",
+    title: "云服务商的“惊喜”",
+    description: "在部署的关键时刻，云服务商（AWS/阿里云）发邮件说当前机房网络波动，预计 2 小时后恢复。",
+    choices: [
+      {
+        id: "e16_c1",
+        text: "等！安全第一，等网络稳定再继续发布。",
+        effect: { timeCost: 120, releaseConfidence: 10, riskLevel: -10 }
+      },
+      {
+        id: "e16_c2",
+        text: "赌一把，强行跨区推镜像，可能会丢包失败。",
+        effect: { riskLevel: 45, chaosMeter: 35, timeCost: 15 }
+      },
+      {
+        id: "e16_c3",
+        text: "紧急启动异地多活灾备方案，把流量切到备用机房发版。",
+        effect: { teamTrust: 20, chaosMeter: 40, releaseConfidence: -20, timeCost: 60 }
+      }
+    ]
+  },
+  {
+    id: "e17",
+    title: "神秘的“祖传代码”报错",
+    description: "你修改了登录逻辑，结果触发了一段三年前离职老哥写的、没有任何注释的祖传代码，报了一个不知名的错误。",
+    choices: [
+      {
+        id: "e17_c1",
+        text: "把那段代码直接注释掉，只要能跑通主流程就行。",
+        effect: { riskLevel: 60, releaseConfidence: -30, chaosMeter: 25, timeCost: 10 }
+      },
+      {
+        id: "e17_c2",
+        text: "全员加班，把这段祖传代码彻底重构掉。",
+        effect: { timeCost: 90, teamTrust: -25, releaseConfidence: 20, riskLevel: -10 }
+      },
+      {
+        id: "e17_c3",
+        text: "回滚你自己的修改，这功能今天不上了。",
+        effect: { userImpact: -15, teamTrust: 10, releaseConfidence: -20, timeCost: 20 }
+      }
+    ]
+  },
+  {
+    id: "e18",
+    title: "竞争对手突然发大招",
+    description: "市场部传来噩耗：死对头公司刚才发布了和你们一模一样的新功能。老板要求你们必须在今晚反击上线！",
+    choices: [
+      {
+        id: "e18_c1",
+        text: "“收到！”跳过剩余的自动化测试，全军突击！",
+        effect: { riskLevel: 50, chaosMeter: 40, releaseConfidence: -30, timeCost: 5 }
+      },
+      {
+        id: "e18_c2",
+        text: "按原定节奏来，质量比速度更重要，绝不自乱阵脚。",
+        effect: { teamTrust: 25, userImpact: 20, timeCost: 30, chaosMeter: -10 }
+      },
+      {
+        id: "e18_c3",
+        text: "赶紧临时加一个敷衍的弹窗功能，证明我们也有。",
+        effect: { userImpact: 35, riskLevel: 30, chaosMeter: 20, timeCost: 20 }
+      }
+    ]
+  },
+  {
+    id: "e19",
+    title: "运维大叔的失误",
+    description: "运维老哥不小心敲错命令，把预发布环境（Staging）的数据库给清空了，现在没法进行最后的验证了。",
+    choices: [
+      {
+        id: "e19_c1",
+        text: "没测试就没测试吧，开发环境过了，直接上生产！",
+        effect: { riskLevel: 60, releaseConfidence: -40, chaosMeter: 30, timeCost: 5 }
+      },
+      {
+        id: "e19_c2",
+        text: "暂停一切，等他从备份恢复预发布数据再继续。",
+        effect: { timeCost: 80, releaseConfidence: 10, chaosMeter: -5 }
+      },
+      {
+        id: "e19_c3",
+        text: "把一部分生产流量导到测试机，用真用户做验证（大胆的灰度）。",
+        effect: { userImpact: 40, riskLevel: 45, chaosMeter: 50, timeCost: 20 }
+      }
+    ]
+  },
+  {
+    id: "e20",
+    title: "过期的证书",
+    description: "HTTPS 证书突然过期了，浏览器开始给所有访问页面的用户疯狂弹红色的不安全警告。",
+    choices: [
+      {
+        id: "e20_c1",
+        text: "手忙脚乱去买新证书、配 Nginx，发版延后。",
+        effect: { timeCost: 60, riskLevel: -20, chaosMeter: 20 }
+      },
+      {
+        id: "e20_c2",
+        text: "让用户点击“继续访问”，先发版，证书下周再说。",
+        effect: { userImpact: 80, teamTrust: -20, riskLevel: 30, timeCost: 5 }
+      },
+      {
+        id: "e20_c3",
+        text: "用免费的 Let's Encrypt 临时签发一个顶上。",
+        effect: { chaosMeter: 15, releaseConfidence: 10, timeCost: 25 }
+      }
+    ]
+  },
+  {
+    id: "e21",
+    title: "设计师的“像素级”强迫症",
+    description: "UI 设计师在走查时发现，首页的一个主要按钮偏离了 2 个像素，坚决要求重新打个包。",
+    choices: [
+      {
+        id: "e21_c1",
+        text: "“好的好的。”重新走一遍漫长的 CI/CD。",
+        effect: { timeCost: 45, teamTrust: 10, chaosMeter: -5 }
+      },
+      {
+        id: "e21_c2",
+        text: "“2 像素没人看得出来，发！”",
+        effect: { teamTrust: -15, releaseConfidence: 5, timeCost: 5 }
+      },
+      {
+        id: "e21_c3",
+        text: "直接在生产环境的热更新代码里加一行 CSS 覆盖。",
+        effect: { riskLevel: 25, chaosMeter: 15, timeCost: 10 }
+      }
+    ]
+  },
+  {
+    id: "e22",
+    title: "诡异的第三方库冲突",
+    description: "引入的新依赖包和系统原有的老包版本冲突，导致控制台狂报红，虽然页面暂时没挂，但随时可能崩溃。",
+    choices: [
+      {
+        id: "e22_c1",
+        text: "不管了，只要用户能点动就行。",
+        effect: { riskLevel: 55, chaosMeter: 25, releaseConfidence: -20, timeCost: 5 }
+      },
+      {
+        id: "e22_c2",
+        text: "立刻降级回退第三方包，宁可不上新特性。",
+        effect: { releaseConfidence: 15, userImpact: -15, riskLevel: -10, timeCost: 30 }
+      },
+      {
+        id: "e22_c3",
+        text: "尝试用 Webpack/Vite 魔法强行抹平冲突，不管后果。",
+        effect: { chaosMeter: 40, riskLevel: 30, timeCost: 25 }
+      }
+    ]
+  },
+  {
+    id: "e23",
+    title: "老板的临时视察",
+    description: "大老板突然发消息：“我正在试用刚发的版本，怎么感觉首页有点卡？”其实你们还没全量发布，他点的是旧版。",
+    choices: [
+      {
+        id: "e23_c1",
+        text: "耐心解释：“老板，新版还没上呢，马上就好。”",
+        effect: { teamTrust: 10, timeCost: 15, chaosMeter: -5 }
+      },
+      {
+        id: "e23_c2",
+        text: "慌了神，立刻催全员：“别管流程了，赶紧把新版推上去！”",
+        effect: { riskLevel: 45, chaosMeter: 35, timeCost: 5, releaseConfidence: -15 }
+      },
+      {
+        id: "e23_c3",
+        text: "假装没看到消息，静音手机，专心发版。",
+        effect: { teamTrust: -25, riskLevel: 10, timeCost: 5 }
+      }
+    ]
+  },
+  {
+    id: "e24",
+    title: "数据库锁表了！",
+    description: "在执行一个看似简单的 Alter Table 时，数据库突然死锁，所有生产环境的写操作全挂了！",
+    choices: [
+      {
+        id: "e24_c1",
+        text: "立刻 Kill 掉那个进程，放弃修改表结构。",
+        effect: { riskLevel: -20, releaseConfidence: -30, chaosMeter: 10, timeCost: 15 }
+      },
+      {
+        id: "e24_c2",
+        text: "死等！祈祷锁能自己解开。",
+        effect: { userImpact: 60, chaosMeter: 40, timeCost: 45 }
+      },
+      {
+        id: "e24_c3",
+        text: "主库挂了切备库，强行把流量打到从库上读写分离。",
+        effect: { riskLevel: 65, chaosMeter: 50, teamTrust: -15, timeCost: 25 }
+      }
+    ]
+  },
+  {
+    id: "e25",
+    title: "核心 API 鉴权失效",
+    description: "测试发现，新上线的用户鉴权接口由于拼写错误，导致随便传个 Token 都能拿到管理员权限。",
+    choices: [
+      {
+        id: "e25_c1",
+        text: "紧急拉闸，全服停机维护，修好再开。",
+        effect: { userImpact: 70, riskLevel: -40, releaseConfidence: 20, timeCost: 60 }
+      },
+      {
+        id: "e25_c2",
+        text: "趁没人发现，偷偷发个 Hotfix 覆盖掉。",
+        effect: { riskLevel: 30, chaosMeter: 20, timeCost: 15 }
+      },
+      {
+        id: "e25_c3",
+        text: "把鉴权模块退回上一版本，新功能裸奔跑一晚。",
+        effect: { riskLevel: 80, releaseConfidence: -50, teamTrust: -20, timeCost: 10 }
+      }
+    ]
+  },
+  {
+    id: "e26",
+    title: "不兼容的 iOS 版本",
+    description: "有人随手拿了一台三年前的 iPhone 测试，发现新页面直接白屏了。但数据显示这类机型只占用户的 1%。",
+    choices: [
+      {
+        id: "e26_c1",
+        text: "“1% 的用户也是用户！全员排查兼容性问题！”",
+        effect: { timeCost: 90, teamTrust: -30, releaseConfidence: 20, riskLevel: -10 }
+      },
+      {
+        id: "e26_c2",
+        text: "“时代在进步，他们该换手机了，发版！”",
+        effect: { userImpact: 25, riskLevel: 10, releaseConfidence: 10, timeCost: 5 }
+      },
+      {
+        id: "e26_c3",
+        text: "给旧机型强行塞一个丑陋的降级静态页面。",
+        effect: { userImpact: 15, chaosMeter: 15, timeCost: 30 }
+      }
+    ]
+  },
+  {
+    id: "e27",
+    title: "代码分支合错了",
+    description: "你震惊地发现，刚才打的生产包里，竟然混入了一个下个月才打算上的“未完成大促销活动”代码。",
+    choices: [
+      {
+        id: "e27_c1",
+        text: "硬着头皮上，立刻去生产配置中心把活动的入口关死。",
+        effect: { riskLevel: 45, chaosMeter: 30, timeCost: 15 }
+      },
+      {
+        id: "e27_c2",
+        text: "立刻停止发布，Git Reset 回退分支重新合并打包。",
+        effect: { timeCost: 50, releaseConfidence: 15, chaosMeter: -10 }
+      },
+      {
+        id: "e27_c3",
+        text: "索性直接通知运营部：“惊不惊喜？活动提前开始了！”",
+        effect: { teamTrust: -35, userImpact: 40, riskLevel: 50, chaosMeter: 60, timeCost: 5 }
+      }
+    ]
+  },
+  {
+    id: "e28",
+    title: "突然的离职交接",
+    description: "关键时刻，旁边的高级开发默默递过来一个 U 盘：“哥，我今天 last day，剩下的代码都在这了，你自己看吧。”",
+    choices: [
+      {
+        id: "e28_c1",
+        text: "求他留下来陪着发完这一版，请他吃海底捞。",
+        effect: { teamTrust: 30, releaseConfidence: 10, timeCost: 20 }
+      },
+      {
+        id: "e28_c2",
+        text: "自己硬看他留下的“屎山”代码，凭感觉推进。",
+        effect: { riskLevel: 50, chaosMeter: 40, timeCost: 35 }
+      },
+      {
+        id: "e28_c3",
+        text: "直接把他的功能全部砍掉，今天绝不碰他写的代码。",
+        effect: { userImpact: -20, releaseConfidence: -15, teamTrust: -10, timeCost: 15 }
+      }
+    ]
+  },
+  {
+    id: "e29",
+    title: "苹果应用商店审核被拒",
+    description: "就在 Web 端马上发完的时候，移动端传来噩耗：iOS App 被拒了！原因是不符合某项奇葩的新规。",
+    choices: [
+      {
+        id: "e29_c1",
+        text: "不管 iOS，Web 端和安卓端先照常上线！",
+        effect: { userImpact: 40, riskLevel: 20, teamTrust: 10, timeCost: 5 }
+      },
+      {
+        id: "e29_c2",
+        text: "为了保持全端一致性，所有端全部停止发布。",
+        effect: { releaseConfidence: -20, teamTrust: -15, timeCost: 30 }
+      },
+      {
+        id: "e29_c3",
+        text: "连夜修改 iOS 代码，尝试走紧急加急审核通道。",
+        effect: { chaosMeter: 35, timeCost: 120, riskLevel: -10 }
+      }
+    ]
+  },
+  {
+    id: "e30",
+    title: "机房突然停电",
+    description: "这不是演习！公司的老机房所在大楼突然拉闸停电，连 UPS 备用电源也只够撑 15 分钟了。",
+    choices: [
+      {
+        id: "e30_c1",
+        text: "生死时速！在 15 分钟内疯狂敲代码把所有数据备份到云端！",
+        effect: { riskLevel: 80, chaosMeter: 70, teamTrust: 30, timeCost: 10 }
+      },
+      {
+        id: "e30_c2",
+        text: "拔掉网线，直接宣告发布失败，大家各回各家。",
+        effect: { releaseConfidence: -50, userImpact: 60, timeCost: 5 }
+      },
+      {
+        id: "e30_c3",
+        text: "冲进机房，用自带的柴油发电机手动发电（物理硬核上线）。",
+        effect: { chaosMeter: 100, teamTrust: -20, riskLevel: 50, timeCost: 45 }
+      }
+    ]
   }
 ];
 
