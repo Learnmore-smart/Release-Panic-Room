@@ -2,7 +2,20 @@
 
 import { motion } from "framer-motion";
 import { GameState, Ending } from "../lib/types";
-import { useRef } from "react";
+import { useState, useRef, useEffect } from "react";
+
+const OPERATION_CODES = [
+  "OP-PANDORA-BOX",
+  "NIGHT-WATCH-73",
+  "CODE-RED-FRIDAY",
+  "PROJECT-ICARUS",
+  "LAST-STAND-OS",
+  "APOLLO-DESCENT",
+  "MIDNIGHT-EXPRESS",
+  "SILENT-SCREAM",
+  "DOOMSDAY-PROTOCOL",
+  "FRIDAY-SURVIVAL"
+];
 
 interface ResultScreenProps {
   ending: Ending | null;
@@ -14,6 +27,11 @@ export default function ResultScreen({ ending, state, onRestart }: ResultScreenP
   if (!ending) return null;
 
   const cardRef = useRef<HTMLDivElement>(null);
+  const [opCode, setOpCode] = useState<string>("FRIDAY-RELEASE");
+
+  useEffect(() => {
+    setOpCode(OPERATION_CODES[Math.floor(Math.random() * OPERATION_CODES.length)]);
+  }, []);
 
   return (
     <div className="min-h-screen bg-[#0a0f18] text-slate-200 flex flex-col items-center justify-center p-4 md:p-12 font-sans selection:bg-amber-500/30">
@@ -45,7 +63,7 @@ export default function ResultScreen({ ending, state, onRestart }: ResultScreenP
           <div className="flex justify-between items-end border-b border-slate-800/50 pb-6 mb-6">
             <div className="flex flex-col gap-1">
               <span className="text-[10px] font-mono text-slate-500 uppercase tracking-widest">行动代号</span>
-              <span className="text-sm font-medium text-slate-300">FRIDAY-RELEASE</span>
+              <span className="text-sm font-medium text-slate-300">{opCode}</span>
             </div>
             <div className="text-right">
               <span className="text-[10px] font-mono text-slate-500 uppercase tracking-widest block mb-1">状态</span>

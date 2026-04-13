@@ -186,6 +186,116 @@ export const gameEvents: GameEvent[] = [
         effect: { teamTrust: -40, timeCost: 5, chaosMeter: 10 }
       }
     ]
+  },
+  {
+    id: "e9",
+    title: "法务的最后通牒",
+    description: "法务部突然发难，说新版的用户隐私协议还没过审，但包含该协议的代码已经和本次发版的核心功能打包在一起了。",
+    choices: [
+      {
+        id: "e9_c1",
+        text: "暂停发布，把法务代码拆出来重新打包测试。",
+        effect: { timeCost: 60, releaseConfidence: 15, riskLevel: -10 }
+      },
+      {
+        id: "e9_c2",
+        text: "强行上线！业务增长更重要，法务有意见再说。",
+        effect: { riskLevel: 50, chaosMeter: 30, teamTrust: -10, timeCost: 5 }
+      },
+      {
+        id: "e9_c3",
+        text: "联系法务老大和 VP 紧急拉群撕逼，要个特批。",
+        effect: { teamTrust: -20, chaosMeter: 20, timeCost: 30 }
+      }
+    ]
+  },
+  {
+    id: "e10",
+    title: "神秘的内存泄漏",
+    description: "最新的压测报告姗姗来迟：新版本在极端高并发下有缓慢的内存泄漏，但以目前的日常流量，可能撑三天才会 OOM (Out Of Memory)。",
+    choices: [
+      {
+        id: "e10_c1",
+        text: "没关系，给运维配个凌晨定时重启脚本就行。",
+        effect: { chaosMeter: 25, riskLevel: 30, teamTrust: -15, timeCost: 10 }
+      },
+      {
+        id: "e10_c2",
+        text: "这绝不能忍！全员回滚排查，今晚找出泄漏点。",
+        effect: { timeCost: 120, releaseConfidence: 20, teamTrust: -30 }
+      },
+      {
+        id: "e10_c3",
+        text: "关闭导致泄漏的非核心模块，降级发布。",
+        effect: { userImpact: 35, riskLevel: -15, releaseConfidence: -10, timeCost: 20 }
+      }
+    ]
+  },
+  {
+    id: "e11",
+    title: "大客户的最后通牒",
+    description: "销售总监冲进来说：“如果今天不能修复那个报表 Bug，最大的金主就要退签！”但那个 Bug 的修复代码还没经过完整回归测试。",
+    choices: [
+      {
+        id: "e11_c1",
+        text: "为了大客户，硬上！出了问题连夜修。",
+        effect: { riskLevel: 40, teamTrust: -10, userImpact: -20, timeCost: 10 }
+      },
+      {
+        id: "e11_c2",
+        text: "坚守底线：“质量第一，未测代码绝不上线！”",
+        effect: { teamTrust: 20, riskLevel: -10, userImpact: 30, timeCost: 15 }
+      },
+      {
+        id: "e11_c3",
+        text: "给大客户单独发个热更新分支，先稳住他们。",
+        effect: { chaosMeter: 35, riskLevel: 25, timeCost: 40 }
+      }
+    ]
+  },
+  {
+    id: "e12",
+    title: "配置中心宕机",
+    description: "正准备通过 Feature Flag (功能开关) 逐步灰度放量时，发现公司的统一配置中心挂了，所有开关都处于未知状态。",
+    choices: [
+      {
+        id: "e12_c1",
+        text: "暂停发布，坐等基础架构团队把配置中心修好。",
+        effect: { timeCost: 50, releaseConfidence: -15, teamTrust: 10 }
+      },
+      {
+        id: "e12_c2",
+        text: "临时修改代码，把所有功能开关写死在前端再发一版。",
+        effect: { chaosMeter: 40, riskLevel: 20, timeCost: 35 }
+      },
+      {
+        id: "e12_c3",
+        text: "直接全量发布新代码，不搞灰度了，听天由命。",
+        effect: { riskLevel: 50, userImpact: 25, timeCost: 5, chaosMeter: 20 }
+      }
+    ]
+  },
+  {
+    id: "e13",
+    title: "形同虚设的代码审查",
+    description: "你扫了一眼 Git 记录，发现一个实习生提了 5000 行代码的重构 PR，另一个实习生秒回了 'LGTM' (Looks Good To Me) 并直接合并了。",
+    choices: [
+      {
+        id: "e13_c1",
+        text: "立刻 Revert (撤销) 这个合并，重新打包！",
+        effect: { timeCost: 45, teamTrust: -20, releaseConfidence: 20 }
+      },
+      {
+        id: "e13_c2",
+        text: "粗略看一眼代码，只要编译能过就先发。",
+        effect: { riskLevel: 60, releaseConfidence: -30, chaosMeter: 20, timeCost: 10 }
+      },
+      {
+        id: "e13_c3",
+        text: "发！但让那两个实习生今晚留在公司随时准备背锅。",
+        effect: { teamTrust: -40, riskLevel: 30, chaosMeter: 15, timeCost: 5 }
+      }
+    ]
   }
 ];
 
