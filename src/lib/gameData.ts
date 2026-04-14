@@ -733,21 +733,59 @@ export const endings: Ending[] = [
     title: "延期保守派 The Safe Delayer",
     description: "你评估了所有的风险后，果断按下了暂停键。虽然要面对各方的压力，但你坚信这是最负责任的决定。",
     imageUrl: "延期保守派.png"
+  },
+  {
+    id: "end_genius_op",
+    title: "天才运营 Genius Operator",
+    description: "虽然技术上一塌糊涂，线上崩得没眼看，但你靠着绝妙的话术和补偿方案，硬生生把一次严重的线上事故包装成了“限时回馈活动”，用户不仅没骂，反而感恩戴德。",
+    imageUrl: "天才运营.png"
+  },
+  {
+    id: "end_popular_mgr",
+    title: "超人气管理 Super Popular Manager",
+    description: "发布虽然磕磕绊绊，甚至被迫延期，但你在过程中展现出的护犊子和抗压能力，让团队士气空前高涨，大家都被你的领袖魅力折服，愿意为你卖命。",
+    imageUrl: "超人气管理.png"
+  },
+  {
+    id: "end_scapegoat",
+    title: "天选背锅侠 The Chosen Scapegoat",
+    description: "你小心翼翼地维持着一切指标，没出大错也没立大功。然而，系统在没有任何征兆的情况下崩溃了。明明不是你的错，最后黑锅却全扣在了你头上。",
+    imageUrl: "天选背锅侠.png"
   }
 ];
 
 export function determineEnding(state: GameState): Ending {
   const { riskLevel, teamTrust, chaosMeter, userImpact, releaseConfidence, currentTime } = state;
 
-  if (chaosMeter > 80 && riskLevel > 80) return endings.find(e => e.id === "end_cowboy")!;
-  if (teamTrust < 30) return endings.find(e => e.id === "end_burnout")!;
-  if (riskLevel > 80 && releaseConfidence < 30) return endings.find(e => e.id === "end_hacked")!;
-  if (chaosMeter > 85) return endings.find(e => e.id === "end_chaos")!;
-  if (currentTime.getHours() >= 23 || currentTime.getHours() < 5) return endings.find(e => e.id === "end_loop")!;
-  if (releaseConfidence > 75 && riskLevel < 40 && chaosMeter < 50) return endings.find(e => e.id === "end_perfect")!;
-  if (userImpact > 70) return endings.find(e => e.id === "end_apathy")!;
-  if (chaosMeter > 60 && teamTrust < 50) return endings.find(e => e.id === "end_executive")!;
-  if (releaseConfidence < 40 && riskLevel > 60) return endings.find(e => e.id === "end_rollback")!;
+  // 1. Extreme Cases (Highest Priority)
+  if (chaosMeter > 80 && riskLevel > 80 && releaseConfidence < 20) return endings.find(e => e.id === "end_hacked")!; // 生产环境被搞垮
+  if (chaosMeter > 90) return endings.find(e => e.id === "end_chaos")!; // 纯粹的混乱
+  
+  // 2. Special Personalities
+  if (userImpact < 30 && chaosMeter > 70 && releaseConfidence > 50) return endings.find(e => e.id === "end_genius_op")!; // 事故虽大，但用户被安抚了（天才运营）
+  if (teamTrust > 85 && releaseConfidence < 60) return endings.find(e => e.id === "end_popular_mgr")!; // 团队极其信任，哪怕发版不顺利（超人气管理）
+  if (teamTrust < 30) return endings.find(e => e.id === "end_burnout")!; // 团队崩溃
+  
+  // 3. Time Constraints
+  if (currentTime.getHours() >= 23 || currentTime.getHours() < 5) return endings.find(e => e.id === "end_loop")!; // 熬夜无限循环
 
+  // 4. Middle-tier Cases
+  if (riskLevel > 80) return endings.find(e => e.id === "end_cowboy")!; // 高风险硬发
+  if (userImpact > 75) return endings.find(e => e.id === "end_apathy")!; // 用户影响极大但不作为
+  if (chaosMeter > 60 && teamTrust < 50) return endings.find(e => e.id === "end_executive")!; // 砍需求
+
+  // 5. Positive / Cautious Cases
+  if (releaseConfidence > 80 && riskLevel < 30 && chaosMeter < 40) return endings.find(e => e.id === "end_perfect")!; // 完美发布
+  if (releaseConfidence < 40 && riskLevel > 60) return endings.find(e => e.id === "end_rollback")!; // 一直回滚
+
+  // 6. Hidden / Default Fallbacks
+  // 如果所有指标都在 40-60 的平庸区间，并且没能达成任何明确的特性结局，触发背锅侠
+  if (releaseConfidence > 40 && releaseConfidence < 60 && 
+      riskLevel > 40 && riskLevel < 60 && 
+      teamTrust > 40 && teamTrust < 60) {
+    return endings.find(e => e.id === "end_scapegoat")!;
+  }
+
+  // 默认：延期保守派
   return endings.find(e => e.id === "end_delayed")!;
 }
