@@ -9,18 +9,19 @@ export function useGame() {
   const [ending, setEnding] = useState<Ending | null>(null);
   const [currentRunEvents, setCurrentRunEvents] = useState<GameEvent[]>([]);
 
-  // Initialize random 8-10 events when game starts
-  useEffect(() => {
-    startNewRun();
-  }, []);
-
-  const startNewRun = () => {
+  const startNewRun = useCallback(() => {
     // Shuffle the full event pool
     const shuffled = [...gameEvents].sort(() => 0.5 - Math.random());
     // Pick 8 to 10 random events for this run
     const numEvents = Math.floor(Math.random() * 3) + 8; // 8, 9, or 10
     setCurrentRunEvents(shuffled.slice(0, numEvents));
-  };
+  }, []);
+
+  // Initialize random 8-10 events when game starts
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    startNewRun();
+  }, [startNewRun]);
 
   const currentEvent = !isGameOver && eventIndex < currentRunEvents.length ? currentRunEvents[eventIndex] : null;
 
@@ -67,7 +68,7 @@ export function useGame() {
     setIsGameOver(false);
     setEnding(null);
     startNewRun();
-  }, []);
+  }, [startNewRun]);
 
   return {
     state,
