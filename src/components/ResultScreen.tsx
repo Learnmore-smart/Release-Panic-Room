@@ -33,7 +33,19 @@ export default function ResultScreen({ ending, state, onRestart }: ResultScreenP
     setOpCode(OPERATION_CODES[Math.floor(Math.random() * OPERATION_CODES.length)]);
   }, []);
 
-  if (!ending) return null;
+  if (!ending) {
+    return (
+      <div className="min-h-screen bg-[#0a0f18] text-slate-200 flex flex-col items-center justify-center p-4">
+        <p>游戏结束，正在生成结果...</p>
+        <button
+          onClick={onRestart}
+          className="mt-4 px-6 py-2 bg-amber-500 text-slate-900 font-bold"
+        >
+          重新开始
+        </button>
+      </div>
+    );
+  }
 
   const handleDownload = async () => {
     if (cardRef.current) {
