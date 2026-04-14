@@ -25,14 +25,15 @@ interface ResultScreenProps {
 }
 
 export default function ResultScreen({ ending, state, onRestart }: ResultScreenProps) {
-  if (!ending) return null;
-
   const cardRef = useRef<HTMLDivElement>(null);
   const [opCode, setOpCode] = useState<string>("FRIDAY-RELEASE");
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setOpCode(OPERATION_CODES[Math.floor(Math.random() * OPERATION_CODES.length)]);
   }, []);
+
+  if (!ending) return null;
 
   const handleDownload = async () => {
     if (cardRef.current) {
