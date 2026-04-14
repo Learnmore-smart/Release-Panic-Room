@@ -678,61 +678,61 @@ export const endings: Ending[] = [
     id: "end_cowboy",
     title: "硬发赌徒 Ship It Gambler",
     description: "你无视了所有风险，凭着一身胆量把代码硬怼上了生产环境。系统居然奇迹般地没崩，但你知道，这只是一颗还没爆炸的定时炸弹。",
-    imageUrl: "end_cowboy.png"
+    imageUrl: "硬发赌徒.png"
   },
   {
     id: "end_burnout",
     title: "熬夜救世主 Midnight Rescuer",
     description: "你用生命在填坑，不仅逼疯了自己，也逼疯了团队。虽然最终勉强上线，但周一估计会收到好几封辞职信。",
-    imageUrl: "end_burnout.png"
+    imageUrl: "熬夜救世主.png"
   },
   {
     id: "end_hacked",
     title: "周五纵火犯 Friday Night Arsonist",
     description: "你成功地在周五晚上搞垮了生产环境。客服电话被打爆，大老板深夜被惊醒，而你，正在准备你的简历。",
-    imageUrl: "end_hacked.png"
+    imageUrl: "周五纵火犯.png"
   },
   {
     id: "end_chaos",
     title: "灾难调度员 Chaos Dispatcher",
     description: "你的每次决策都在制造新的混乱，发版过程堪比好莱坞灾难片。最终大家都在一团乱麻中麻木了。",
-    imageUrl: "end_chaos.png"
+    imageUrl: "灾难调度员.png"
   },
   {
     id: "end_loop",
     title: "时间循环者 Infinite Looper",
     description: "已经过了午夜，你还在修 Bug，修好一个又出一个。发版成了一个永远无法到达的彼岸。",
-    imageUrl: "end_loop.png"
+    imageUrl: "时间循环者.png"
   },
   {
     id: "end_perfect",
     title: "冷静指挥官 Calm Commander",
     description: "在极致的高压下，你依然保持了惊人的冷静。风险被化解，团队对你心服口服，这是一个教科书般的发版之夜。",
-    imageUrl: "end_perfect.png"
+    imageUrl: "冷静指挥官.png"
   },
   {
     id: "end_apathy",
     title: "警报免疫者 Alert Numbed",
-    description: "你对所有的警报和风险都视而不见，成功培养出了一支同样麻木的团队。系统千疮百孔，但只要还能跑，就假装看不见。",
-    imageUrl: "end_apathy.png"
+    description: "你对所有的警报 and 风险都视而不见，成功培养出了一支同样麻木的团队。系统千疮百孔，但只要还能跑，就假装看不见。",
+    imageUrl: "警报免疫者.png"
   },
   {
     id: "end_executive",
     title: "需求献祭者 Scope Sacrificer",
     description: "为了能早点下班，你毫不犹豫地砍掉了所有有风险的功能。PM 气得跳脚，但你成功保卫了你的周末。",
-    imageUrl: "end_executive.png"
+    imageUrl: "需求献祭者.png"
   },
   {
     id: "end_rollback",
     title: "回滚先知 Rollback Prophet",
     description: "只要一有风吹草动，你的第一反应就是回滚。虽然保证了绝对的安全，但这个迭代等于什么都没做。",
-    imageUrl: "end_rollback.png"
+    imageUrl: "回滚先知.png"
   },
   {
     id: "end_delayed",
     title: "延期保守派 The Safe Delayer",
     description: "你评估了所有的风险后，果断按下了暂停键。虽然要面对各方的压力，但你坚信这是最负责任的决定。",
-    imageUrl: "end_delayed.png"
+    imageUrl: "延期保守派.png"
   }
 ];
 
