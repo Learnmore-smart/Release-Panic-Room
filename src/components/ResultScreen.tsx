@@ -62,12 +62,12 @@ export default function ResultScreen({ ending, state, onRestart }: ResultScreenP
         className="w-full max-w-2xl flex flex-col items-center gap-12"
       >
         {/* Share Card */}
-        <div 
+        <div
           ref={cardRef}
           className="w-full max-w-md bg-[#0f1623] border border-slate-800/80 p-8 relative overflow-hidden group"
         >
           <div className="absolute top-0 right-0 w-32 h-32 bg-amber-500/5 rounded-full blur-3xl -mr-10 -mt-10 pointer-events-none" />
-          
+
           <div className="flex justify-between items-end border-b border-slate-800/50 pb-6 mb-6">
             <div className="flex flex-col gap-1">
               <span className="text-[10px] font-mono text-slate-500 uppercase tracking-widest">行动代号</span>
@@ -83,11 +83,11 @@ export default function ResultScreen({ ending, state, onRestart }: ResultScreenP
 
           {ending.imageUrl && (
             <div className="mb-6 rounded-md overflow-hidden border border-slate-800/50 bg-[#0a0f18]">
-              <img 
-                src={ending.imageUrl} 
-                alt={ending.title} 
-                crossOrigin="anonymous" 
-                className="w-full h-auto object-cover opacity-90 grayscale-[20%] group-hover:grayscale-0 transition-all duration-500" 
+              <img
+                src={`${process.env.NEXT_PUBLIC_BASE_PATH || ""}/${ending.imageUrl}`}
+                alt={ending.title}
+                crossOrigin="anonymous"
+                className="w-full h-auto object-cover opacity-90 grayscale-[20%] group-hover:grayscale-0 transition-all duration-500"
               />
             </div>
           )}
@@ -111,7 +111,7 @@ export default function ResultScreen({ ending, state, onRestart }: ResultScreenP
             <Stat label="用户影响" value={state.userImpact} color="text-purple-500" />
             <Stat label="混乱值" value={state.chaosMeter} color="text-amber-500" />
           </div>
-          
+
           <div className="border-t border-slate-800/50 pt-6 flex justify-between items-center">
             <span className="text-xs text-slate-500 font-mono">周五上线修罗场</span>
             <span className="text-[10px] text-slate-600 font-mono uppercase">Top Secret</span>
@@ -127,7 +127,7 @@ export default function ResultScreen({ ending, state, onRestart }: ResultScreenP
           >
             再来一局
           </motion.button>
-          
+
           <motion.button
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
