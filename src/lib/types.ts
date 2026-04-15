@@ -19,19 +19,24 @@ export interface Effect {
 export interface Choice {
   id: string;
   text: string;
+  textEn?: string;
   effect: Effect;
 }
 
 export interface GameEvent {
   id: string;
   title: string;
+  titleEn?: string;
   description: string;
+  descriptionEn?: string;
   choices: Choice[];
 }
 
 export interface Ending {
   id: string;
   title: string;
+  titleEn?: string;
   description: string;
+  descriptionEn?: string;
   imageUrl?: string;
 }

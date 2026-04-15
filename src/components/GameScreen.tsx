@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { GameState, GameEvent, Choice } from "../lib/types";
+import { useLanguage } from "../contexts/LanguageContext";
 
 interface GameScreenProps {
   state: GameState;
@@ -29,6 +30,8 @@ const ProgressBar = ({ label, value, color }: { label: string; value: number; co
 };
 
 export default function GameScreen({ state, currentEvent, onChoice }: GameScreenProps) {
+  const { t, language } = useLanguage();
+
   if (!currentEvent) return null;
 
   // Format time (e.g., 17:42)
@@ -47,18 +50,18 @@ export default function GameScreen({ state, currentEvent, onChoice }: GameScreen
         className="max-w-5xl w-full mx-auto flex flex-col md:flex-row gap-6 md:gap-12 mb-16"
       >
         <div className="flex flex-col justify-center border-b border-slate-800/50 pb-4 md:border-b-0 md:pb-0 md:border-r md:pr-12 md:min-w-[120px]">
-          <span className="text-[10px] font-mono text-slate-500 uppercase tracking-[0.2em] mb-1">当前时间</span>
+          <span className="text-[10px] font-mono text-slate-500 uppercase tracking-[0.2em] mb-1">{t("game.currentTime")}</span>
           <span className="text-4xl font-mono text-amber-500 tracking-tight">
             {formatTime(state.currentTime)}
           </span>
         </div>
         
         <div className="flex-grow grid grid-cols-2 md:grid-cols-5 gap-4 md:gap-8 items-center">
-          <ProgressBar label="发布信心" value={state.releaseConfidence} color="bg-emerald-500" />
-          <ProgressBar label="风险值" value={state.riskLevel} color="bg-red-500" />
-          <ProgressBar label="团队信任" value={state.teamTrust} color="bg-blue-500" />
-          <ProgressBar label="用户影响" value={state.userImpact} color="bg-purple-500" />
-          <ProgressBar label="混乱值" value={state.chaosMeter} color="bg-amber-500" />
+          <ProgressBar label={t("game.releaseConfidence")} value={state.releaseConfidence} color="bg-emerald-500" />
+          <ProgressBar label={t("game.riskLevel")} value={state.riskLevel} color="bg-red-500" />
+          <ProgressBar label={t("game.teamTrust")} value={state.teamTrust} color="bg-blue-500" />
+          <ProgressBar label={t("game.userImpact")} value={state.userImpact} color="bg-purple-500" />
+          <ProgressBar label={t("game.chaosMeter")} value={state.chaosMeter} color="bg-amber-500" />
         </div>
       </motion.header>
 
@@ -74,10 +77,10 @@ export default function GameScreen({ state, currentEvent, onChoice }: GameScreen
         >
           <div className="border-l-[3px] border-amber-500/80 pl-6 md:pl-8 py-2">
             <h2 className="text-2xl md:text-3xl font-medium text-slate-100 mb-6 tracking-tight leading-snug">
-              {currentEvent.title}
+              {language === "en" && currentEvent.titleEn ? currentEvent.titleEn : currentEvent.title}
             </h2>
             <p className="text-slate-400 text-lg md:text-xl leading-relaxed font-light">
-              {currentEvent.description}
+              {language === "en" && currentEvent.descriptionEn ? currentEvent.descriptionEn : currentEvent.description}
             </p>
           </div>
 
@@ -93,7 +96,7 @@ export default function GameScreen({ state, currentEvent, onChoice }: GameScreen
               >
                 <div className="absolute inset-y-0 left-0 w-1 bg-amber-500 scale-y-0 group-hover:scale-y-100 transition-transform duration-300 origin-left" />
                 <span className="relative z-10 text-slate-300 group-hover:text-slate-100 transition-colors text-base md:text-lg">
-                  {choice.text}
+                  {language === "en" && choice.textEn ? choice.textEn : choice.text}
                 </span>
               </motion.button>
             ))}

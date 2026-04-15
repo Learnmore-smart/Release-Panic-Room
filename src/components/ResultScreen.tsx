@@ -5,6 +5,8 @@ import { GameState, Ending } from "../lib/types";
 import { useState, useRef, useEffect } from "react";
 import html2canvas from "html2canvas";
 
+import { useLanguage } from "../contexts/LanguageContext";
+
 const OPERATION_CODES = [
   "OP-PANDORA-BOX",
   "NIGHT-WATCH-73",
@@ -27,6 +29,7 @@ interface ResultScreenProps {
 export default function ResultScreen({ ending, state, onRestart }: ResultScreenProps) {
   const cardRef = useRef<HTMLDivElement>(null);
   const [opCode, setOpCode] = useState<string>("FRIDAY-RELEASE");
+  const { t, language } = useLanguage();
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -36,12 +39,12 @@ export default function ResultScreen({ ending, state, onRestart }: ResultScreenP
   if (!ending) {
     return (
       <div className="min-h-screen bg-[#0a0f18] text-slate-200 flex flex-col items-center justify-center p-4">
-        <p>游戏结束，正在生成结果...</p>
+        <p>{t("result.generating")}</p>
         <button
           onClick={onRestart}
           className="mt-4 px-6 py-2 bg-amber-500 text-slate-900 font-bold"
         >
-          重新开始
+          {t("result.restart")}
         </button>
       </div>
     );
@@ -83,13 +86,13 @@ export default function ResultScreen({ ending, state, onRestart }: ResultScreenP
 
           <div className="flex justify-between items-end border-b border-slate-800/50 pb-6 mb-6">
             <div className="flex flex-col gap-1">
-              <span className="text-[10px] font-mono text-slate-500 uppercase tracking-widest">行动代号</span>
+              <span className="text-[10px] font-mono text-slate-500 uppercase tracking-widest">{t("result.opCode")}</span>
               <span className="text-sm font-medium text-slate-300">{opCode}</span>
             </div>
             <div className="text-right">
-              <span className="text-[10px] font-mono text-slate-500 uppercase tracking-widest block mb-1">状态</span>
+              <span className="text-[10px] font-mono text-slate-500 uppercase tracking-widest block mb-1">{t("result.status")}</span>
               <span className="text-xs font-mono text-amber-500 bg-amber-500/10 px-2 py-1 rounded-sm uppercase">
-                已终止
+                {t("result.status.terminated")}
               </span>
             </div>
           </div>
@@ -98,7 +101,7 @@ export default function ResultScreen({ ending, state, onRestart }: ResultScreenP
             <div className="mb-6 rounded-md overflow-hidden border border-slate-800/50 bg-[#0a0f18]">
               <img
                 src={`${process.env.NEXT_PUBLIC_BASE_PATH || ""}/${ending.imageUrl}`}
-                alt={ending.title}
+                alt={language === "en" && ending.titleEn ? ending.titleEn : ending.title}
                 crossOrigin="anonymous"
                 className="w-full h-auto object-cover opacity-90 grayscale-[20%] group-hover:grayscale-0 transition-all duration-500"
               />
@@ -107,27 +110,27 @@ export default function ResultScreen({ ending, state, onRestart }: ResultScreenP
 
           <div className="mb-8">
             <h1 className="text-[10px] md:text-xs font-mono text-amber-500 uppercase tracking-[0.3em] mb-2">
-              最终结局
+              {t("result.finalEnding")}
             </h1>
             <h2 className="text-2xl font-bold text-slate-100 mb-3 tracking-tight">
-              {ending.title}
+              {language === "en" && ending.titleEn ? ending.titleEn : ending.title}
             </h2>
             <p className="text-slate-400 text-sm leading-relaxed">
-              {ending.description}
+              {language === "en" && ending.descriptionEn ? ending.descriptionEn : ending.description}
             </p>
           </div>
 
           <div className="grid grid-cols-2 gap-y-6 gap-x-8 mb-8">
-            <Stat label="发布信心" value={state.releaseConfidence} color="text-emerald-500" />
-            <Stat label="风险值" value={state.riskLevel} color="text-red-500" />
-            <Stat label="团队信任" value={state.teamTrust} color="text-blue-500" />
-            <Stat label="用户影响" value={state.userImpact} color="text-purple-500" />
-            <Stat label="混乱值" value={state.chaosMeter} color="text-amber-500" />
+            <Stat label={t("game.releaseConfidence")} value={state.releaseConfidence} color="text-emerald-500" />
+            <Stat label={t("game.riskLevel")} value={state.riskLevel} color="text-red-500" />
+            <Stat label={t("game.teamTrust")} value={state.teamTrust} color="text-blue-500" />
+            <Stat label={t("game.userImpact")} value={state.userImpact} color="text-purple-500" />
+            <Stat label={t("game.chaosMeter")} value={state.chaosMeter} color="text-amber-500" />
           </div>
 
           <div className="border-t border-slate-800/50 pt-6 flex justify-between items-center">
-            <span className="text-xs text-slate-500 font-mono">周五上线修罗场</span>
-            <span className="text-[10px] text-slate-600 font-mono uppercase">Top Secret</span>
+            <span className="text-xs text-slate-500 font-mono">{t("home.title")}</span>
+            <span className="text-[10px] text-slate-600 font-mono uppercase">{t("result.topSecret")}</span>
           </div>
         </div>
 
@@ -138,7 +141,7 @@ export default function ResultScreen({ ending, state, onRestart }: ResultScreenP
             onClick={onRestart}
             className="flex-1 px-6 py-4 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-medium tracking-wide transition-colors duration-300"
           >
-            再来一局
+            {t("result.restartBtn")}
           </motion.button>
 
           <motion.button
@@ -148,7 +151,7 @@ export default function ResultScreen({ ending, state, onRestart }: ResultScreenP
             className="flex-1 px-6 py-4 bg-amber-500 hover:bg-amber-400 text-[#0a0f18] font-medium tracking-wide transition-colors duration-300 flex items-center justify-center gap-2"
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
-            下载结果卡
+            {t("result.downloadBtn")}
           </motion.button>
         </div>
       </motion.div>
